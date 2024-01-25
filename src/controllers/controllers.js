@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const users = require('../../dados/usuarios');
-const {
-    verifyJWT
-} = require('../middleware/middleware');
+const dados = require('../../dados/usuarios');
 
 function login(req, res) {
     const {
@@ -29,22 +27,20 @@ function login(req, res) {
     }
 }
 
-function acessarNotas(req, res, middleware) {
+function acessarNotas(req, res) {
 
-    const userAutenticado = middleware.userId;
+    const usuario = dados.find(user => user.id === parseInt(req.params.id));
 
-    const usuario = userAutenticado.find(user => user.id === parseInt(req.params.id));
+    const notas = usuario.notas;
 
-    if (!usuario) {
-        return res.status(404).json('Usuário não encontrado.')
+    if (notas.length > 0) {
+        res.status(200).json(notas);
+    } else {
+        res.status(404).json('Não há notas cadastradas para esse usuário.');
     }
-
-    const notasDoUsuario = usuario.notas;
-
-    res.status(200).json(notasDoUsuario);
-
 }
 
 module.exports = {
-    login
+    login,
+    acessarNotas
 };
