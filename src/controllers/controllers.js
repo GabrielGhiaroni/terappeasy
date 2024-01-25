@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 const users = require('../../dados/usuarios');
+const {
+    verifyJWT
+} = require('../middleware/middleware');
 
 function login(req, res) {
     const {
@@ -24,6 +27,22 @@ function login(req, res) {
             message: "Credenciais inválidas"
         });
     }
+}
+
+function acessarNotas(req, res, middleware) {
+
+    const userAutenticado = middleware.userId;
+
+    const usuario = userAutenticado.find(user => user.id === parseInt(req.params.id));
+
+    if (!usuario) {
+        return res.status(404).json('Usuário não encontrado.')
+    }
+
+    const notasDoUsuario = usuario.notas;
+
+    res.status(200).json(notasDoUsuario);
+
 }
 
 module.exports = {
