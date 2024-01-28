@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const users = require('../../dados/usuarios');
 const dados = require('../../dados/usuarios');
 
 function login(req, res) {
@@ -8,7 +7,7 @@ function login(req, res) {
         senha
     } = req.body;
 
-    const usuario = users.find(user => user.email === email && user.senha === senha);
+    const usuario = dados.find(user => user.email === email && user.senha === senha);
 
     if (usuario) {
         const token = jwt.sign({
@@ -25,7 +24,7 @@ function login(req, res) {
             message: "Credenciais inválidas"
         });
     }
-}
+};
 
 function acessarNotas(req, res) {
 
@@ -38,9 +37,36 @@ function acessarNotas(req, res) {
     } else {
         res.status(404).json('Não há notas cadastradas para esse usuário.');
     }
-}
+};
+
+function criarNotas(req, res) {
+    const {
+        id
+    } = req.params
+
+    const {
+        conteudo
+    } = req.body;
+
+    const usuario = dados.find(user => user.id === parseInt(id));
+
+    if (!usuario) {
+        return res.status(404).send('Usuário não encontrado.');
+    }
+
+    const novaNota = {
+        id: usuario.notas.length + 1,
+        conteudo
+    }
+
+    usuario.notas.push(novaNota);
+
+    res.status(201).send(novaNota)
+
+};
 
 module.exports = {
     login,
-    acessarNotas
+    acessarNotas,
+    criarNotas
 };

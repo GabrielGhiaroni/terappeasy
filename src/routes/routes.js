@@ -3,7 +3,8 @@ const routes = express.Router();
 require('dotenv').config();
 const {
     login,
-    acessarNotas
+    acessarNotas,
+    criarNotas
 } = require('../controllers/controllers');
 const {
     verifyJWT
@@ -11,5 +12,6 @@ const {
 
 routes.post('/login', login);
 routes.get('/:id/minhas-notas', verifyJWT, acessarNotas);
+routes.post('/:id/minhas-notas', verifyJWT, criarNotas);
 
 module.exports = routes;
