@@ -3,12 +3,23 @@ const users = [{
         nome: "Gabriel Ghiaroni",
         email: "gabrielghiaroni@outlook.com",
         senha: "123456",
-        notas: [
-            'Hoje meu dia foi bom',
-            'Hoje meu dia não foi tão bom',
-            'Hoje meu dia foi mais ou menos',
-            'Hoje meu dia até que foi ok',
-            'Hoje meu dia foi bão demais'
+        notas: [{
+                id: 1,
+                conteudo: 'Hoje eu estudei programação'
+            }, {
+                id: 2,
+                conteudo: 'Hoje eu fui à academia.'
+            },
+            {
+                id: 3,
+                conteudo: 'Hoje eu vi uma série.'
+            }, {
+                id: 4,
+                conteudo: 'Hoje eu levei a Gaia e Athena para tomar banho.'
+            }, {
+                id: 5,
+                conteudo: 'Hoje eu fui ao jogo do Fluminense.'
+            },
         ]
     },
     {
@@ -16,9 +27,23 @@ const users = [{
         nome: "Douglas Quintas",
         email: "douglasquintas@outlook.com",
         senha: "123456",
-        notas: [
-            'Hoje eu me estressei na On',
-            'Hoje eu tive um dia mais legal'
+        notas: [{
+                id: 1,
+                conteudo: 'Hoje eu fumei um cigarro.'
+            }, {
+                id: 2,
+                conteudo: 'Hoje eu fui trabalhar na On.'
+            },
+            {
+                id: 3,
+                conteudo: 'Hoje eu fiz carinho na minha gatinha.'
+            }, {
+                id: 4,
+                conteudo: 'Hoje eu bebi cerveja.'
+            }, {
+                id: 5,
+                conteudo: 'Hoje eu fui numa roda de samba.'
+            },
         ]
     },
     {
@@ -26,10 +51,23 @@ const users = [{
         nome: "André Costa",
         email: "andrecosta@outlook.com",
         senha: "123456",
-        notas: [
-            'Hoje eu joguei futevôlei',
-            'Hoje eu bebi 3 cervejas',
-            'Hoje eu peguei uma casada na hora do almoço'
+        notas: [{
+                id: 1,
+                conteudo: 'Hoje eu peguei uma casada.'
+            }, {
+                id: 2,
+                conteudo: 'Hoje eu fui para a Venâncio.'
+            },
+            {
+                id: 3,
+                conteudo: 'Hoje eu fui para um sambinha.'
+            }, {
+                id: 4,
+                conteudo: 'Hoje eu bebi cerveja e fiquei doidão.'
+            }, {
+                id: 5,
+                conteudo: 'Hoje eu vi o Fogão perder mais um jogo.'
+            },
         ]
     },
     {
@@ -37,10 +75,23 @@ const users = [{
         nome: "Leandro Teodosio",
         email: "leandroteodosio@outlook.com",
         senha: "123456",
-        notas: [
-            'Hoje eu joguei futevôlei em São Paulo',
-            'Hoje eu peguei trânsito',
-            'Hoje eu dei banho no Ruffus'
+        notas: [{
+                id: 1,
+                conteudo: 'Hoje eu fui à praia na Avenida Paulista.'
+            }, {
+                id: 2,
+                conteudo: 'Hoje eu fiz carinho no Ruffus.'
+            },
+            {
+                id: 3,
+                conteudo: 'Hoje eu disparei e-mail.'
+            }, {
+                id: 4,
+                conteudo: 'Hoje eu fiz academia.'
+            }, {
+                id: 5,
+                conteudo: 'Hoje eu bebi cerveja.'
+            },
         ]
     },
     {
@@ -48,10 +99,23 @@ const users = [{
         nome: "Bernardo Andrade",
         email: "bernardoandrade@outlook.com",
         senha: "123456",
-        notas: [
-            'Hoje eu levei a Nala pra passear',
-            'Hoje eu tive reunião com a TIM',
-            'Hoje eu almocei em casa'
+        notas: [{
+                id: 1,
+                conteudo: 'Hoje eu levei a Nala para passear.'
+            }, {
+                id: 2,
+                conteudo: 'Hoje eu fiz reunião com a TIM.'
+            },
+            {
+                id: 3,
+                conteudo: 'Hoje eu bebi muito café.'
+            }, {
+                id: 4,
+                conteudo: 'Hoje eu vi jogo de futebol.'
+            }, {
+                id: 5,
+                conteudo: 'Hoje eu fui na Ômega.'
+            },
         ]
     }
 ]

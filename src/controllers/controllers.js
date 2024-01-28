@@ -17,7 +17,7 @@ function login(req, res) {
             expiresIn: 300
         })
         return res.status(200).json({
-            auth: true,
+            usuario,
             token
         });
     } else {
