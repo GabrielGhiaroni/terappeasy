@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const dados = require('../../dados/usuarios');
+const {
+    query
+} = require('./conexao');
 
 function login(req, res) {
     const {
@@ -25,6 +27,11 @@ function login(req, res) {
         });
     }
 };
+
+const listarUsuarios = async (req, res) => {
+    const usuarios = await query('select * from usuarios');
+    res.status(200).json(usuarios);
+}
 
 function acessarNotas(req, res) {
 
@@ -67,6 +74,7 @@ function criarNotas(req, res) {
 
 module.exports = {
     login,
+    listarUsuarios,
     acessarNotas,
     criarNotas
 };
