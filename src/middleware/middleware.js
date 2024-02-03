@@ -6,9 +6,9 @@ function verifyJWT(req, res, next) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) return res.status(401).json('Token inválido.');
 
-        const userId = decoded.userId;
-
-        req.params.id = userId;
+        req.user = {
+            userId: decoded.userId
+        };
 
         next();
     });

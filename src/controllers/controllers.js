@@ -3,20 +3,22 @@ const {
     query
 } = require('./conexao');
 
-function login(req, res) {
+const login = async (req, res) => {
     const {
         email,
         senha
     } = req.body;
 
-    const usuario = dados.find(user => user.email === email && user.senha === senha);
+    const {
+        rows: usuario
+    } = await query('SELECT * FROM USUARIOS WHERE EMAIL = $1 AND SENHA = $2', [email, senha]);
 
     if (usuario) {
         const token = jwt.sign({
-            userId: usuario.id
+            userId: usuario[0].id
         }, process.env.JWT_SECRET, {
-            expiresIn: 300
-        })
+            expiresIn: '300s'
+        });
         return res.status(200).json({
             usuario,
             token
@@ -29,20 +31,37 @@ function login(req, res) {
 };
 
 const listarUsuarios = async (req, res) => {
-    const usuarios = await query('select * from usuarios');
-    res.status(200).json(usuarios);
+    try {
+        const {
+            rows: usuarios
+        } = await query('SELECT * FROM USUARIOS');
+        if (usuarios.length > 0) {
+            res.status(200).json(usuarios);
+        } else {
+            res.status(404).send('Não foi encontrado nenhum usuário.');
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Ocorreu um erro ao tentar acessar a lista de usuários.');
+    }
 }
 
-function acessarNotas(req, res) {
+const acessarNotas = async (req, res) => {
+    try {
+        const idUsuario = req.user.userId;
 
-    const usuario = dados.find(user => user.id === parseInt(req.params.id));
+        const {
+            rows: notas
+        } = await query('SELECT * FROM NOTAS WHERE USUARIO_ID = $1', [idUsuario]);
 
-    const notas = usuario.notas;
-
-    if (notas.length > 0) {
-        res.status(200).json(notas);
-    } else {
-        res.status(404).json('Não há notas cadastradas para esse usuário.');
+        if (notas.length > 0) {
+            res.status(200).json(notas);
+        } else {
+            res.status(404).send('Nenhuma nota encontrada para este usuário.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Ocorreu um erro ao acessar as notas.');
     }
 };
 

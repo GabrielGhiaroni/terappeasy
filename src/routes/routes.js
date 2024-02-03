@@ -13,7 +13,7 @@ const {
 
 routes.get('/usuarios', listarUsuarios);
 routes.post('/login', login);
-routes.get('/:id/minhas-notas', verifyJWT, acessarNotas);
+routes.get('/notas/:id', verifyJWT, acessarNotas);
 routes.post('/:id/minhas-notas', verifyJWT, criarNotas);
 
 module.exports = routes;
