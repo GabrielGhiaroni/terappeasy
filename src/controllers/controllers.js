@@ -12,7 +12,7 @@ const login = async (req, res) => {
 
         const {
             rows: usuario
-        } = await query('SELECT * FROM USUARIOS WHERE EMAIL = $1 AND SENHA = $2', [email, senha]);
+        } = await query('SELECT * FROM usuarios WHERE email = $1 AND senha = $2', [email, senha]);
 
         if (usuario) {
             const token = jwt.sign({
@@ -38,7 +38,7 @@ const listarUsuarios = async (req, res) => {
     try {
         const {
             rows: usuarios
-        } = await query('SELECT * FROM USUARIOS');
+        } = await query('SELECT * FROM usuarios');
         if (usuarios.length > 0) {
             res.status(200).json(usuarios);
         } else {
@@ -56,7 +56,7 @@ const acessarNotas = async (req, res) => {
 
         const {
             rows: notas
-        } = await query('SELECT * FROM NOTAS WHERE USUARIO_ID = $1', [idUsuario]);
+        } = await query('SELECT * FROM notas WHERE usuario_id = $1', [idUsuario]);
 
         if (notas.length > 0) {
             res.status(200).json(notas);
@@ -69,30 +69,17 @@ const acessarNotas = async (req, res) => {
     }
 };
 
-function criarNotas(req, res) {
-    const {
-        id
-    } = req.params
-
-    const {
-        conteudo
-    } = req.body;
-
-    const usuario = dados.find(user => user.id === parseInt(id));
-
-    if (!usuario) {
-        return res.status(404).send('Usuário não encontrado.');
+const criarNotas = async (req, res) => {
+    try {
+        const idUsuario = req.user.userId;
+        const conteudoNota = req.body.conteudo;
+        const {
+            rows: nota
+        } = await query('INSERT INTO NOTAS (usuario_id, conteudo) VALUES ($1, $2) RETURNING *', [idUsuario, conteudoNota]);
+        res.status(200).json(nota);
+    } catch (error) {
+        res.status(500).send(error.message);
     }
-
-    const novaNota = {
-        id: usuario.notas.length + 1,
-        conteudo
-    }
-
-    usuario.notas.push(novaNota);
-
-    res.status(201).send(novaNota)
-
 };
 
 module.exports = {
