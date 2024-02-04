@@ -93,8 +93,24 @@ const editarNotas = async (req, res) => {
         if (notaAtualizada.lenght === 0) {
             return res.status(404).send('Essa nota não sofreu alterações.')
         }
-
         res.status(200).json(notaAtualizada[0]);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+const deletarNotas = async (req, res) => {
+    try {
+        const idNota = req.params.idNota;
+        const {
+            rows: notaDeletada
+        } = await query('DELETE FROM Notas WHERE id = $1 RETURNING *', [idNota]);
+
+        if (notaDeletada.length > 0) {
+            return res.status(200).send('Nota deletada com sucesso.');
+        } else {
+            return res.status(404).send('Nota não encontrada.');
+        }
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -105,5 +121,6 @@ module.exports = {
     listarUsuarios,
     acessarNotas,
     criarNotas,
-    editarNotas
+    editarNotas,
+    deletarNotas
 };

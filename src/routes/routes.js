@@ -6,7 +6,8 @@ const {
     listarUsuarios,
     acessarNotas,
     criarNotas,
-    editarNotas
+    editarNotas,
+    deletarNotas
 } = require('../controllers/controllers');
 const {
     verifyJWT
@@ -17,5 +18,6 @@ routes.post('/login', login);
 routes.get('/notas/:id', verifyJWT, acessarNotas);
 routes.post('/notas/:id', verifyJWT, criarNotas);
 routes.put('/notas/:idNota', verifyJWT, editarNotas);
+routes.delete('/notas/:idNota', verifyJWT, deletarNotas);
 
 module.exports = routes;
