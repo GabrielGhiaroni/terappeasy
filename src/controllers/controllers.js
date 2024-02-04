@@ -75,8 +75,26 @@ const criarNotas = async (req, res) => {
         const conteudoNota = req.body.conteudo;
         const {
             rows: nota
-        } = await query('INSERT INTO NOTAS (usuario_id, conteudo) VALUES ($1, $2) RETURNING *', [idUsuario, conteudoNota]);
+        } = await query('INSERT INTO Notas (usuario_id, conteudo) VALUES ($1, $2) RETURNING *', [idUsuario, conteudoNota]);
         res.status(200).json(nota);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+const editarNotas = async (req, res) => {
+    try {
+        const idNota = req.params.idNota;
+        const conteudoNotaEditada = req.body.conteudo;
+        const {
+            rows: notaAtualizada
+        } = await query('UPDATE Notas SET conteudo = $2 WHERE id = $1 RETURNING *', [idNota, conteudoNotaEditada]);
+
+        if (notaAtualizada.lenght === 0) {
+            return res.status(404).send('Essa nota não sofreu alterações.')
+        }
+
+        res.status(200).json(notaAtualizada[0]);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -86,5 +104,6 @@ module.exports = {
     login,
     listarUsuarios,
     acessarNotas,
-    criarNotas
+    criarNotas,
+    editarNotas
 };
