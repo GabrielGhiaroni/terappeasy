@@ -4,29 +4,33 @@ const {
 } = require('./conexao');
 
 const login = async (req, res) => {
-    const {
-        email,
-        senha
-    } = req.body;
+    try {
+        const {
+            email,
+            senha
+        } = req.body;
 
-    const {
-        rows: usuario
-    } = await query('SELECT * FROM USUARIOS WHERE EMAIL = $1 AND SENHA = $2', [email, senha]);
+        const {
+            rows: usuario
+        } = await query('SELECT * FROM USUARIOS WHERE EMAIL = $1 AND SENHA = $2', [email, senha]);
 
-    if (usuario) {
-        const token = jwt.sign({
-            userId: usuario[0].id
-        }, process.env.JWT_SECRET, {
-            expiresIn: '300s'
-        });
-        return res.status(200).json({
-            usuario,
-            token
-        });
-    } else {
-        return res.status(401).json({
-            message: "Credenciais inválidas"
-        });
+        if (usuario) {
+            const token = jwt.sign({
+                userId: usuario[0].id
+            }, process.env.JWT_SECRET, {
+                expiresIn: '300s'
+            });
+            return res.status(200).json({
+                usuario,
+                token
+            });
+        } else {
+            return res.status(401).json({
+                message: "Credenciais inválidas"
+            });
+        }
+    } catch (error) {
+        res.status(500).send(error.message)
     }
 };
 
